@@ -15,7 +15,7 @@ ybar <- mean(y)
 sx <- sum(x^2)
 sy <- sum(y^2)
 
-bh <- (n*sum(x*y) - n^2*xbar*ybar)/(n*sx - n^2*xbar^2)
+bh <- (sum(x*y) - n*xbar*ybar)/(sx - n*xbar^2)
 ah <- ybar - bh*xbar              
 
 sprintf('1.b yh = %f + %fx',ah, bh)

@@ -9,7 +9,7 @@ sx <- sum(x^2)
 sy <- sum(y^2)
 sXiSquared <- sum((x - xbar)^2)
 
-bh <- (n*sum(x*y) - n^2*xbar*ybar)/(n*sx - n^2*xbar^2)
+bh <- (sum(x*y) - n*xbar*ybar)/(sx - n*xbar^2)
 ah <- ybar - bh*xbar              
 
 #2.a
@@ -42,8 +42,15 @@ sprintf('2.d highest influence is %f at index %d', hii[valii] , valii )
 #2.e confidence interval
 xinput <- 0.5
 ypred <- ah + bh * xinput
-interval <- sigmahroot * (1/n + ((xinput)^2/sx))^0.5 * qnorm(0.05,lower.tail = FALSE)
 
+# include x to Sxx
+newsigmahroot <- 0.8^0.5
+interval <- newsigmahroot * (1/n + ((xinput-xbar)^2/sXiSquared))^0.5 * qnorm(0.025,lower.tail = FALSE)
 sprintf('2.e Range is %f and %f', ypred - interval, ypred + interval)
 
+
+plot(x,y)
+abline(a=ah, b=bh)
+abline(a=ah - interval, b=bh,  col="blue")
+abline(a=ah + interval, b=bh,  col="blue")
 
