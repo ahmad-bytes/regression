@@ -38,7 +38,7 @@ sigma <- (t(eh) %*% eh) / (n-p)
 index = 3
 # get element 3,3 or xi which is (X`X)^-1
 cindex <- xi[index,index]
-sprintf('1.1b Distribution of beta3 N(B3,sigma^2 * C3) = N(%f , %f) ',bh[index,1], sigma * cindex )
+sprintf('1.1b Distribution of beta3 N(B3,sigma^2 * C3) = N(%f , %f)',bh[index,1], sigma * cindex )
 
 
 #1.1c marginal distribution of beta 3 
@@ -69,7 +69,7 @@ df2 <- n-p
 Fsignificance <- 0.01
 Fcriticalval <- qf(Fsignificance, df1, df2, lower.tail=FALSE)
 #degree of freedom 1 : 1, 27, F stats 1.35, critical value: 7.674 - hypothesis is not rejected
-sprintf('1.2 Test Statistic %f, Critical Value %f (hypothesis is not rejected)) ', Fstats, Fcriticalval)
+sprintf('1.2 Test Statistic %f, Critical Value %f (hypothesis is not rejected))', Fstats, Fcriticalval)
 
 #1.3 marginal distribution of b3 , index is 3 as initialized before
 bindex <- bh[index,1]
@@ -77,31 +77,29 @@ bindex <- bh[index,1]
 # b3 divide by root of [3,3]rd element of (X`X)^-1 which is already calculated in cindex
 # divide by
 # residual sum of squares divide by  root of degrees of freedom
-Tstats <- (bindex / (cindex)^0.5) / (resss / (n-p)^0.5)
+Tstats <- (bindex / (cindex)^0.5) / ((resss / (n-p))^0.5)
 Tcriticalval <- qt(Tstats, n-p , lower.tail=FALSE)
 # Tstats is 0.266 - p value is 0.39 - hypothesis is not rejected
+# Tstats is 1.66 - p value is 0.39 - hypothesis is not rejected
 sprintf('1.3 Test Statistic %f, P-Value %f (hypothesis is not rejected)) ', Tstats, Tcriticalval) 
 
-#calculating leverage score
-
+#1.4 calculating leverage score
 # calculate hat matrix -- x multiple by xi(x transpose * x and inverse) multiple by x matrix
 ht <- xx %*% xi %*% t(xx)
+# take the diagonal elements of hat matrix, which will give us the leverage scores
 h11 <- ht[1,1]
 h22 <- ht[2,2]
-
-# take the diagonal elements of hat matrix, which will give us the leverage scores
-#hd<-diag(ht)
-#print(hd)
-#1.4
 #h11 = 0.05, h22 = 0.10
 #h22 is greater, high leverage is high influence
+sprintf('1.4 Leverage score for first obs.= %f, Leverage score for Second obs.= %f. Second observation is more influential', h11, h22) 
 
-#1.5
+#1.5 predict 
+# set new x vector
 xnew <- c(1,0.12,0.56)
+# calculate ypred
 ypred <- t(xnew) %*% bh
-# we already have sigma which was unknown
+# we already have sigma which was unknown and we have estimated earlier
 #t = 0.025 at 27 confidence interval
 talpha = 2.052
 interval <- talpha * (sigma * t(xnew) %*% xi %*% xnew)^0.5
-sprintf('interval is %f, %f', ypred - interval,ypred + interval)
-
+sprintf('1.5 predicted value %f - confidence interval (%f, %f)', ypred, ypred - interval,ypred + interval)
