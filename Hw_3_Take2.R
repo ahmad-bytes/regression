@@ -1,4 +1,4 @@
-HW3_data <- read.csv("C:/Users/~/Dropbox/MS/RPractice/HomeWork/HW3_data.csv")
+HW3_data <- read.csv("C:/Users/bilal/Dropbox/MS/RPractice/HomeWork/HW3_data.csv")
 #View(HW3_data)
 
 # initialize 
@@ -47,24 +47,11 @@ xi_model3 <- solve(t(xx_model3) %*% xx_model3)
 #model 3 is resolved
 bh_model3 <- xi_model3  %*% t(xx_model3) %*% y_model3
 paste(as.character(bh_model3), collapse=", ")
-# find the variance of Beta22 and Beta32
-# variance of B22
-variance_b22 = xi_model2[2,2]
-variance_b32 = xi_model3[2,2]
 
-sprintf('Variance of b_22 = %f variance of b_32 %f)',variance_b22, variance_b32 )
+frame <- as.data.frame(m)
+multi.fit = lm(frame$y ~ frame$m + frame$x, data=frame)
+summary(multi.fit)
 
-# ztest statistic
-b_12 <- bh_model1[2,1]
-b_33 <- bh_model3[3,1]
-b_22 <- bh_model2[2,1]
-b_32 <- bh_model3[2,1]
-  
-z = (b_12 - b_33) / (b_22^2 * variance_b32 + b_32^2 * variance_b22 )^0.5
-#z = 11.15
+vcov(summary(multi.fit))
 
-sprintf('z = %f)',z)
-
-#p-value is very very small
-# so we reject the null hypothesis
 
