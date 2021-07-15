@@ -71,6 +71,8 @@ bb[kk]<-log(ttt[10]+1)
 
 }
 
+sd(b)
+sd(bb)
 
 
 

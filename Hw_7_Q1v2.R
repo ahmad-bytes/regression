@@ -50,36 +50,3 @@ for(k in 2:n)
   d <- sum((y %*% l_theta_dash_dash(t, xx)) - (l_theta_dash(t,xx))^2 - (l_theta(t,xx) %*% l_theta_dash_dash(t,xx)))
   t <- t - u/d
 }
-
-var(l_theta(t, xx))
-
-sigma_squared = (sum(y - yh)^2) / (n-1)
-sigma = sqrt(sigma_squared)
-
-ttt <- 0
-bbb <- 0
-yyy <- 0
-xxx <- 0
-
-for(kk in 1:1000)
-{
-  xxx <- xx
-  yyy <- l_theta(t, xx) + sigma * rnorm(n)
-  
-  ttt[1] <- 1
-  
-  for(k in 2:10)
-  {
-    # numerator
-    u <- sum((yyy - l_theta(ttt[k-1], xxx)) %*% l_theta_dash(ttt[k-1],xxx))
-    # denominator
-    d <- sum((yyy %*% l_theta_dash_dash(ttt[k-1], xxx)) - (l_theta_dash(ttt[k-1],xxx))^2 - (l_theta(ttt[k-1],xxx) %*% l_theta_dash_dash(ttt[k-1],xxx)))
-    ttt[k] <- ttt[k-1] - u/d
-  }
-  
-  #bbb[kk] <- l_theta(ttt[k], xxx)
-  bbb[kk] <- ttt[k]
-}
-
-var(bbb)
-summary(bbb)
