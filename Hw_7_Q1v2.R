@@ -23,30 +23,51 @@ n = length(xx)
 
 l_theta <- function (theta, x_i)
 {
-  return(exp(theta * x_i))
+  l_theta <- exp(theta * x_i)
 }
 
 
 l_theta_dash <- function (theta, x_i)
 {
-  return(theta * exp(theta * x_i))
+  l_theta_dash <- theta * exp(theta * x_i)
 }
 
 l_theta_dash_dash <- function (theta, x_i)
 {
-  return(l_theta_dash_dash <- theta^2 * exp(theta * x_i))
+  l_theta_dash_dash <- theta^2 * exp(theta * x_i)
 }
 
-t <- 1
+t <- 0.99
 
-yh<-l_theta(t, xx)
-eh<-y-yh
+yh <- l_theta(t, xx)
 
-for(k in 2:n)
+sigma_squared = (sum(y - yh)^2) / (n-1)
+sigma = sqrt(sigma_squared)
+
+ttt <- 0
+bbb <- 0
+yyy <- 0
+
+mean_xx = mean(xx)
+
+
+for(kk in 1:1000)
 {
-  # numerator
-  u <- sum((y - l_theta(t, xx)) %*% l_theta_dash(t,xx))
-  # denominator
-  d <- sum((y %*% l_theta_dash_dash(t, xx)) - (l_theta_dash(t,xx))^2 - (l_theta(t,xx) %*% l_theta_dash_dash(t,xx)))
-  t <- t - u/d
+  yyy <- l_theta(t, mean_xx) + sigma * rnorm(n)
+  
+  ttt[1] <- 1
+  
+  for(k in 2:10)
+  {
+    # numerator
+    u <- sum((yyy - l_theta(ttt[k-1], xx)) * l_theta_dash(ttt[k-1],xx))
+    # denominator
+    d <- sum((yyy * l_theta_dash_dash(ttt[k-1], xx)) - (l_theta_dash(ttt[k-1],xx))^2 - (l_theta(ttt[k-1],xx) * l_theta_dash_dash(ttt[k-1],xx)))
+    ttt[k] <- ttt[k-1] - u/d
+  }
+  
+  bbb[kk] <- l_theta(ttt[k], mean_xx)
 }
+
+var(log(bbb))
+sqrt(var(log(bbb)))
