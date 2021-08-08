@@ -75,3 +75,23 @@ for(i in 1:99)
   #print(sprintf('i= %f, r= %f, split1= %f, split2= %f, sum_split_1= %f, sum_split_1= %f, sum_split_1 + sum_split_2= %f', i, r, split1, split2, sum_split_1, sum_split_1, sum_split_1 + sum_split_2))
   print(sprintf('%f,%f,%f,%f,%f,%f,%f', i, r, split1, split2, sum_split_1, sum_split_2, sum_split_1 + sum_split_2))
 }
+
+m1 <- 0
+m2 <- 0
+partition <- 0
+for(k in 1:n)
+{
+  if (df$x[k] <= 0.119)
+  {
+    m1 <- m1 + df$y[k]
+    partition <- partition + 1
+  }
+  else
+  {
+    m2 <- m2 + df$y[k]
+  }
+}
+
+m1 <- m1 / partition
+m2 <- m2 / (n-partition)
+

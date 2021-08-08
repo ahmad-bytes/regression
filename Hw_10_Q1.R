@@ -70,7 +70,8 @@ denominator <- 0
 for(i in 1:n)
 {
   denominator <- denominator + uniform_kernel(m_x, x[i], hh)
-  numerator <- uniform_kernel(m_x, x[i], hh) * abs(m_x - x[i])
+  # numerator <- uniform_kernel(m_x, x[i], hh) * abs(m_x - x[i])
+  numerator <- uniform_kernel(m_x, x[i], hh) * (x[i] - m_x)
 }
 
 bias <- 1.2 * sum(numerator) / denominator
@@ -84,4 +85,4 @@ for(i in 1:n)
   numerator_sum[i] <- uniform_kernel(m_x, x[i], hh)^2
 }
 
-variance_h <- sum(numerator_sum) / denominator^2
+variance_h <- sum(numerator_sum / denominator^2)
